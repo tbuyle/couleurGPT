@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yellow Tint Fixer</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+    <script src="https://unpkg.com/@hotwired/stimulus"></script>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body data-controller="image-fixer">
+    <main>
+      <section id="tool">
+          <hgroup>
+            <h1>✨ CouleurGPT</h1>
+            <p>Fini le jaune, place aux vraies couleurs</p>
+          </hgroup>
+          <p>
+            <small>
+            ChatGPT jaunit vos images&nbsp;?<br/>CouleurGPT les remet à niveau instantanément, sans retouche ni réglage.
+            </small>
+            
+          </p>
+          
+  
+          <div id="dropzone" data-image-fixer-target="dropzone" data-action="click->image-fixer#openFileInput dragover->image-fixer#highlightDropzone dragleave->image-fixer#resetDropzone drop->image-fixer#handleDrop">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+            <hgroup>
+              <h2>Déposez votre image ici</h2>
+              <div>ou cliquez pour en choisir une</div>
+            </hgroup>
+            <button class="outline secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-upload mr-2 h-4 w-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>
+              Choisir une image
+            </button>
+            
+            <input type="file" data-image-fixer-target="upload" accept="image/*" style="display: none" />
+          </div>
+
+        <p>
+            <small>
+            Simple, rapide, et 100 % gratuit.  
+            </small>
+            
+          </p>
+          
+      
+        <div id="preview" hidden data-image-fixer-target="preview">
+          
+            <canvas id="originalCanvas" data-image-fixer-target="originalCanvas"></canvas>
+            <canvas id="fixedCanvas" data-image-fixer-target="fixedCanvas"></canvas>
+            <div id="sliderLine" data-image-fixer-target="sliderLine" data-action="mousedown->image-fixer#startDrag">
+              <div id="sliderHandle" data-image-fixer-target="sliderHandle"></div>
+            </div>
+  
+        </div>
+  
+        <div>
+          <input type="range" data-image-fixer-target="slider" id="slider" min="0" max="100" value="50" data-action="input->image-fixer#updateSlider" />
+          <a role="button" id="download" data-image-fixer-target="download" hidden download="couleurGPT.png">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download mr-2 h-4 w-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+            Télécharger l'image corrigée
+          </a>
+        </div>
+  
+        <div>
+  
+          
+        </div>
+      </section>
+      <section id="description">
+        <hr/>
+        <h2>Pourquoi les images générées par ChatGPT sont elles si jaunes&nbsp;?</h2>
+        <p>
+          Lorsque vous générez une image avec ChatGPT (ou <a href="https://www.stablediffusion.blog/gpt-image-1">GPT-Image-1</a>), le résultat est souvent esthétiquement réussi… mais <strong>il est systématiquement teinté de jaune ou de sépia</strong>.
+        </p>
+        <p>
+          <strong>Ce n’est pas une erreur de votre part</strong> : c’est un <em>biais colorimétrique</em> intégré au modèle. Même en formulant un prompt précis, les rendus ont tendance à paraître trop chauds, comme passés à travers un filtre nostalgique.          
+        </p>
+        <p>
+          L'analyse des images met en évidence un déséquilibre dans les canaux RGB, notamment un manque de bleu. Ce décalage modifie la balance des blancs et donne une dominante jaune aux images — subtile (ou pas), mais omniprésente.
+        </p>
+        <h2>Fini le jaune, place aux vraies couleurs</h2>
+        <p>
+          <strong>CouleurGPT</strong> corrige automatiquement ce problème&nbsp;:
+        </p>
+        <ul>
+          <li>
+            Vous n'avez rien à régler, rien à deviner.
+          </li>
+          <li>
+            Ajustement intelligent des canaux RVB pour retrouver un rendu naturel
+          </li>
+          <li> 
+            Suppression de la teinte jaune sans altérer les détails ou les contrastes
+          </li>
+          <li>
+            Des blancs neutres, des couleurs fidèles, et une image prête à l’emploi
+          </li>
+        </ul>
+        <h2>Les avantages de CouleurGPT</h2>
+        <ul>
+          <li>
+             <strong>Gagnez du temps&nbsp;:</strong> plus besoin d’éditer manuellement vos images
+          </li>
+          <li>
+             <strong>Améliorez vos résultats</strong> dès la première génération
+          </li>
+          <li>
+             <strong>Obtenez des visuels prêts à être partagés</strong> ou intégrés dans vos projets pro
+          </li>
+        </ul>
+         <hr/>
+      </section>  
+    </main>
+    <footer>
+      <small>
+        Créé avec ❤️ (et l'aide de ChatGPT) pour <a href="https://www.stablediffusion.blog/">StableDiffusion.blog</a>
+      </small>
+    </footer>
+
+    <script src="js/image-fixer.js" defer></script>
+  </body>
+</html>
