@@ -163,7 +163,7 @@ const TPLD={
     en:{hld:"Fantasy trading card depicting a frost dragon.",aesthetics:"fantasy, card game, ornamental",lighting:"cold magical light",art_style:"detailed fantasy digital painting, ornate frame",bg:"Ornate golden border on an icy blue background.",
       els:[{type:"text",text:"FROST DRAGON",desc:"Name in a top banner, golden capitals.",bbox:[40,80,130,920],cp:["#C9A24B"]},
            {type:"obj",desc:"Frost dragon spreading its wings on a snowy peak, in a frame.",bbox:[150,110,620,890]},
-           {type:"text",text:"8 / 8",desc:"Stats in large golden digits, bottom-right corner.",bbox:[895,790,970,920],cp:["#C9A24B"]}]}}},
+           {type:"text",text:"8 / 8",desc:"Stats in large golden digits, bottom-right corner.",bbox:[895,790,970,920],cp:["#C9A24B"]}]}},
   sticker:{ratio:"1:1",mode:"art_style",medium:"graphic_design",cp:["#FF8C42","#FFF3E0","#6BBF59"],
     fr:{hld:"Sticker illustré d'une tasse de café souriante avec le mot FRESH.",aesthetics:"mignon, ludique, propre",lighting:"éclairage plat et uniforme",art_style:"illustration vectorielle plate, contours épais, liseré blanc",bg:"Fond uni beige clair, sans décor.",
       els:[{type:"obj",desc:"Tasse de café kawaii souriante avec vapeur stylisée.",bbox:[300,300,820,700]},
