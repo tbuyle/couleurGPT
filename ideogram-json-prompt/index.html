@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ideogram JSON Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <b>Ideogram JSON Builder</b>
+    <small><span data-i18n="brand_pre">constructeur de </span><a data-i18n="brand_link" href="https://www.stablediffusion.blog/ideogram-4-prompt-json" target="_blank" rel="noopener">prompt structuré pour Ideogram 4</a></small>
+  </div>
+  <div class="spacer"></div>
+  <div class="templates">
+    <label data-i18n="tpl_label">Modèle</label>
+    <select class="tpl" id="tpl">
+      <option value="blank" data-i18n="tpl_blank">Vierge</option>
+      <option value="poster" data-i18n="tpl_poster">Affiche</option>
+      <option value="card" data-i18n="tpl_card">Carte à collectionner</option>
+      <option value="sticker" data-i18n="tpl_sticker">Sticker</option>
+      <option value="thumb" data-i18n="tpl_thumb">Miniature YouTube</option>
+    </select>
+  </div>
+  <button class="btn ghost" id="importBtn" data-i18n="btn_import">Importer</button>
+  <button class="btn ghost" id="dlBtn" data-i18n="btn_download">Télécharger</button>
+  <button class="btn primary" id="copyBtn" data-i18n="btn_copy">Copier le JSON</button>
+</header>
+
+<main>
+  <!-- ============ FORM ============ -->
+  <section class="col" id="formCol">
+    <h2 class="sec"><span class="n">&#9638;</span> <span data-i18n="sec_format">Format de l'image</span></h2>
+    <div class="field" style="position:relative">
+      <div class="ratios" id="ratios"></div>
+      <div class="ratioPop" id="ratioPop"></div>
+    </div>
+
+    <h2 class="sec"><span class="n">1</span> <span data-i18n="sec_desc">Description générale</span></h2>
+    <div class="field">
+      <label>high_level_description <span class="opt" data-i18n="opt_recommended">· recommandé</span><span class="info" tabindex="0" data-i18n-tip="tip_hld">i</span></label>
+      <textarea id="hld" data-i18n-ph="ph_hld" placeholder="Résumé de l'image en une phrase…"></textarea>
+    </div>
+
+    <h2 class="sec"><span class="n">2</span> <span data-i18n="sec_style">Style</span></h2>
+    <div class="field">
+      <label><span data-i18n="style_mode_label">Type de rendu</span> <span class="info" tabindex="0" data-i18n-tip="tip_style_mode">i</span></label>
+      <div class="seg" id="styleMode">
+        <button data-m="art_style">art_style</button>
+        <button data-m="photo">photo</button>
+        <button data-m="none" data-i18n="seg_none">aucun</button>
+      </div>
+    </div>
+    <div id="styleFields">
+      <div class="field">
+        <label>aesthetics <span class="req">*</span><span class="info" tabindex="0" data-i18n-tip="tip_aesthetics">i</span></label>
+        <input type="text" id="aesthetics" data-i18n-ph="ph_aesthetics" placeholder="moderniste, épuré, contraste élevé…">
+        <div class="chips" data-for="aesthetics"></div>
+      </div>
+      <div class="field">
+        <label>lighting <span class="req">*</span><span class="info" tabindex="0" data-i18n-tip="tip_lighting">i</span></label>
+        <input type="text" id="lighting" data-i18n-ph="ph_lighting" placeholder="lumière douce, contre-jour, néons…">
+        <div class="chips" data-for="lighting"></div>
+      </div>
+      <div class="field">
+        <label>medium <span class="req">*</span><span class="info" tabindex="0" data-i18n-tip="tip_medium">i</span></label>
+        <input type="text" id="medium" data-i18n-ph="ph_medium" placeholder="photograph, illustration, painting…">
+        <div class="chips" data-for="medium"></div>
+      </div>
+      <div class="field" id="photoField">
+        <label>photo <span class="opt" data-i18n="opt_photo">· objectif, ouverture…</span><span class="info" tabindex="0" data-i18n-tip="tip_photo">i</span></label>
+        <input type="text" id="photo" data-i18n-ph="ph_photo" placeholder="85mm, f/1.8, faible profondeur de champ…">
+      </div>
+      <div class="field" id="artField">
+        <label>art_style <span class="info" tabindex="0" data-i18n-tip="tip_art">i</span></label>
+        <input type="text" id="art_style" data-i18n-ph="ph_art" placeholder="aquarelle, vectoriel plat, concept art…">
+        <div class="chips" data-for="art_style"></div>
+      </div>
+      <div class="field">
+        <label>color_palette <span class="opt" data-i18n="opt_max16">· max 16</span><span class="info" tabindex="0" data-i18n-tip="tip_palette_img">i</span></label>
+        <div class="palette" id="imgPalette"></div>
+      </div>
+    </div>
+
+    <h2 class="sec"><span class="n">3</span> <span data-i18n="sec_comp">Composition</span></h2>
+    <div class="field">
+      <label>background <span class="req">*</span> <span class="opt" data-i18n="opt_bg">· le décor, pas les sujets</span><span class="info" tabindex="0" data-i18n-tip="tip_bg">i</span></label>
+      <textarea id="background" data-i18n-ph="ph_bg" placeholder="Décrivez l'arrière-plan / l'ambiance…"></textarea>
+    </div>
+    <div class="field">
+      <label>elements <span class="opt" data-i18n="opt_elements">· objets et textes</span><span class="info" tabindex="0" data-i18n-tip="tip_elements">i</span></label>
+      <div id="elements"></div>
+      <div class="addel">
+        <button class="btn" id="addText" data-i18n="btn_add_text">+ Texte</button>
+        <button class="btn" id="addObj" data-i18n="btn_add_obj">+ Objet</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CANVAS ============ -->
+  <section class="col">
+    <div class="canvaswrap">
+      <div class="canvashead">
+        <h2 class="sec" style="border:none;margin:0;padding:0"><span class="n">&#9651;</span> <span data-i18n="canvas_title">Éditeur de zones (bbox)</span></h2>
+        <span class="hint" id="canvasHint"></span>
+      </div>
+      <div class="stage">
+        <svg class="board" id="board" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="coord" id="coordReadout"></div>
+    </div>
+  </section>
+
+  <!-- ============ JSON ============ -->
+  <section class="col">
+    <div class="jsonhead">
+      <span class="lbl" data-i18n="json_title">Sortie JSON</span>
+      <button class="btn ghost" id="copyBtn2" data-i18n="btn_copy_short">Copier</button>
+    </div>
+    <pre class="json" id="jsonOut"></pre>
+    <div class="valid">
+      <div class="t" data-i18n="checks_title">Vérifications</div>
+      <ul id="validList"></ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-credit"><span data-i18n="footer_pre">Créé avec ❤️ (et l'aide de Claude) pour </span><a href="https://www.stablediffusion.blog/" target="_blank" rel="noopener">StableDiffusion.blog</a></div>
+  <div class="lang-sel">
+    <span class="lbl" data-i18n="select_language">select language</span>
+    <a class="flag" data-lang="fr" href="?lang=fr" title="Français">&#127467;&#127479;</a>
+    <a class="flag" data-lang="en" href="?lang=en" title="English">&#127468;&#127463;</a>
+  </div>
+</footer>
+
+<div class="modal" id="importModal">
+  <div class="box">
+    <h3 data-i18n="import_title">Importer un JSON</h3>
+    <textarea id="importText" data-i18n-ph="ph_import" placeholder="Collez ici un prompt JSON Ideogram…"></textarea>
+    <div class="row">
+      <button class="btn ghost" id="importCancel" data-i18n="btn_cancel">Annuler</button>
+      <button class="btn primary" id="importGo" data-i18n="btn_load">Charger</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>
